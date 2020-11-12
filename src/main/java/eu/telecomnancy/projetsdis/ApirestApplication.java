@@ -23,25 +23,21 @@ public class ApirestApplication {
         return (args) -> {
             // save a few customers
             String bauerStr = "Bauer";
-            repository.save(new Customer("Jack", bauerStr));
-            repository.save(new Customer("Chloe", "O'Brian"));
-            repository.save(new Customer("Kim", bauerStr));
-            repository.save(new Customer("David", "Palmer"));
-            repository.save(new Customer("Michelle", "Dessler"));
-            
+            repository.save(new Customer("Jack", bauerStr, 18));
+            repository.save(new Customer("Chloe", "O'Brian", 18));
+            repository.save(new Customer("Kim", bauerStr, 22));
+            repository.save(new Customer("David", "Palmer", 23));
+            repository.save(new Customer("Michelle", "Dessler", 110));
+    
             // fetch all customers
             log.info("Customers found with findAll():");
             log.info("-------------------------------");
-            for (Customer customer : repository.findAll()) {
-                log.info(customer.toString());
-            }
+    
             log.info("");
-            
+    
             // fetch an individual customer by ID
-            Customer customer = repository.findById(1L);
             log.info("Customer found with findById(1L):");
             log.info("--------------------------------");
-            log.info(customer.toString());
             log.info("");
             
             // fetch customers by last name
