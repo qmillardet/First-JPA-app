@@ -20,4 +20,7 @@ public interface CustomerRepository extends JpaRepository<Person, Long> {
     Person findById(long id);
     
     List<Person> findAll();
+    
+    @Query("SELECT a FROM Person a WHERE a.team is null")
+    List<Person> findByAnyTeam();
 }

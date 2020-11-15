@@ -68,4 +68,9 @@ public class PersonAPIController {
     public void deleteTeam(@PathVariable Long id) {
         personRepository.deleteById(id);
     }
+    
+    @GetMapping("/persons/any/team")
+    public List<Person> getPersonWithoutTeam() {
+        return personRepository.findByAnyTeam();
+    }
 }
