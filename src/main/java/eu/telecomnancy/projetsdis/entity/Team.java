@@ -3,6 +3,7 @@ package eu.telecomnancy.projetsdis.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,7 +17,7 @@ public class Team {
     private final Date creation = new Date();
     @JsonManagedReference
     @OneToMany(mappedBy = "team", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private final Set<Person> members = new HashSet<>();
+    private Set<Person> members = new HashSet<>();
     private String name;
     
     
@@ -33,6 +34,10 @@ public class Team {
     
     public Long getId() {
         return id;
+    }
+    
+    public void setId(Long id) {
+        this.id = id;
     }
     
     public void addMembers(Person person) {
@@ -55,8 +60,20 @@ public class Team {
         return name;
     }
     
+    public void setName(String name) {
+        this.name = name;
+    }
+    
     public Set<Person> getMembers() {
         return members;
+    }
+    
+    public void addArrayMembers(Person[] arrayOfMember) {
+        Collections.addAll(this.members, arrayOfMember);
+    }
+    
+    public void setMembers(Set<Person> setOfPerson) {
+        this.members = setOfPerson;
     }
     
     @Override

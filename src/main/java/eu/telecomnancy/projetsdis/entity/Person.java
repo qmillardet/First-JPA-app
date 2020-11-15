@@ -18,7 +18,7 @@ public class Person {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Team team;
     
-    protected Person() {
+    public Person() {
     }
     
     public Person(String firstName, String lastName, int age) {
@@ -48,6 +48,26 @@ public class Person {
     
     public String getLastName() {
         return lastName;
+    }
+    
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+    
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+    
+    public int getAge() {
+        return age;
+    }
+    
+    public void setAge(int age) {
+        this.age = age;
     }
     
     public Team getTeam() {
