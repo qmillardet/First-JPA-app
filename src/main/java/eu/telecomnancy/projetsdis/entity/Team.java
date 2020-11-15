@@ -1,5 +1,7 @@
 package eu.telecomnancy.projetsdis.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
@@ -12,8 +14,9 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private final Date creation = new Date();
+    @JsonManagedReference
     @OneToMany(mappedBy = "team", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private final Set<Customer> members = new HashSet<>();
+    private final Set<Person> members = new HashSet<>();
     private String name;
     
     
@@ -32,14 +35,14 @@ public class Team {
         return id;
     }
     
-    public void addMembers(Customer person) {
+    public void addMembers(Person person) {
         if (this.members.size() < 8) {
             this.members.add(person);
             person.setTeam(this);
         }
     }
     
-    public boolean removeMembers(Customer person) {
+    public boolean removeMembers(Person person) {
         person.setTeam(null);
         return true;
     }
@@ -52,14 +55,14 @@ public class Team {
         return name;
     }
     
-    public Set<Customer> getMembers() {
+    public Set<Person> getMembers() {
         return members;
     }
     
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder("{");
-        this.members.forEach((Customer cust) -> str.append("{" + cust.toString() + "}"));
+        this.members.forEach((Person cust) -> str.append("{" + cust.toString() + "}"));
         str.append("}");
         return "Team{" +
                        "creatation=" + creation +

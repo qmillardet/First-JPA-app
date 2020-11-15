@@ -1,9 +1,11 @@
 package eu.telecomnancy.projetsdis.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
-public class Customer {
+public class Person {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -12,13 +14,14 @@ public class Customer {
     private String lastName;
     private int age;
     
+    @JsonBackReference
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Team team;
     
-    protected Customer() {
+    protected Person() {
     }
     
-    public Customer(String firstName, String lastName, int age) {
+    public Person(String firstName, String lastName, int age) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
