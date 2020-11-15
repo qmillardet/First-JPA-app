@@ -12,7 +12,7 @@ public class Customer {
     private String lastName;
     private int age;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Team team;
     
     protected Customer() {
@@ -26,9 +26,13 @@ public class Customer {
     
     @Override
     public String toString() {
+        String name = "";
+        if (team != null) {
+            name = team.getName();
+        }
         return String.format(
-                "Customer[id=%d, firstName='%s', lastName='%s', age='%d']",
-                id, firstName, lastName, age);
+                "Customer[id=%d, firstName='%s', lastName='%s', age='%d', team='%s']",
+                id, firstName, lastName, age, name);
     }
     
     public Long getId() {
@@ -41,5 +45,13 @@ public class Customer {
     
     public String getLastName() {
         return lastName;
+    }
+    
+    public Team getTeam() {
+        return team;
+    }
+    
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }

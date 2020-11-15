@@ -8,34 +8,64 @@ import java.util.Set;
 @Entity
 public class Team {
     
-    private final Date creatation = new Date();
-    @OneToMany(mappedBy = "team")
-    private final Set<Customer> members;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private final Date creation = new Date();
+    @OneToMany(mappedBy = "team", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private final Set<Customer> members = new HashSet<>();
+    private String name;
     
-    public Team() {
-        this.members = new HashSet<>();
+    
+    public Team(String name) {
+        this.name = name;
     }
     
-    public Date getCreatation() {
-        return creatation;
+    public Team() {
+    }
+    
+    public Date getCreation() {
+        return creation;
     }
     
     public Long getId() {
         return id;
     }
     
-    public boolean addPerson(Customer person) {
+    public void addMembers(Customer person) {
         if (this.members.size() < 8) {
             this.members.add(person);
-            return true;
+            person.setTeam(this);
         }
-        return false;
+    }
+    
+    public boolean removeMembers(Customer person) {
+        person.setTeam(null);
+        return true;
     }
     
     public boolean isComplete() {
         return this.members.size() >= 8;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public Set<Customer> getMembers() {
+        return members;
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder("{");
+        this.members.forEach((Customer cust) -> str.append("{" + cust.toString() + "}"));
+        str.append("}");
+        return "Team{" +
+                       "creatation=" + creation +
+                       ", name='" + name + '\'' +
+                       ", members=" + str +
+                       ", id=" + id +
+                       '}';
     }
 }
