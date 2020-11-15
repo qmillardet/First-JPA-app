@@ -84,13 +84,19 @@ class PersonApirestTests {
     
     @Test
     void testRemovePersonSuccess() {
-        
+    
         this.restTemplate.delete("/person/2");
         ResponseEntity<String> result = this.restTemplate.getForEntity("/person/2", String.class);
-        
+    
         //Verify request succeed
         Assert.assertEquals(404, result.getStatusCodeValue());
     }
     
+    //[{"id":10,"firstName":"Pierette","lastName":"Pilote","age":110},{"id":12,"firstName":"Jeanne","lastName":"Hymmer","age":110}]
     
+    @Test
+    void personWithoutTeam() {
+        String body = this.restTemplate.getForObject("/persons/any/team", String.class);
+        assertThat(body).contains("{\"id\":10,\"firstName\":\"Pierette\",\"lastName\":\"Pilote\",\"age\":110},{\"id\":12,\"firstName\":\"Jeanne\",\"lastName\":\"Hymmer\",\"age\":110}]");
+    }
 }
