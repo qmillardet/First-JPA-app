@@ -2,7 +2,7 @@ package eu.telecomnancy.projetsdis.apicontroller;
 
 import eu.telecomnancy.projetsdis.dto.TeamDTO;
 import eu.telecomnancy.projetsdis.entity.Team;
-import eu.telecomnancy.projetsdis.exception.EmployeeNotFoundException;
+import eu.telecomnancy.projetsdis.exception.PersonNotFoundException;
 import eu.telecomnancy.projetsdis.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +24,8 @@ public class TeamAPIController {
     }
     
     @GetMapping("/team/{id}")
-    public Team getTeam(@PathVariable Long id) throws EmployeeNotFoundException {
-        return teamRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
+    public Team getTeam(@PathVariable Long id) throws PersonNotFoundException {
+        return teamRepository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
     }
     
     @PostMapping("/team/create")
