@@ -78,4 +78,9 @@ class TeamApirestTests {
         Assert.assertEquals(404, result.getStatusCodeValue());
     }
     
+    @Test
+    void TeamMembers() {
+        String body = this.restTemplate.getForObject("/team/13/members", String.class);
+        assertThat(body).contains("{\"id\":6,\"firstName\":\"Camille\",\"lastName\":\"Knauss\",\"age\":110}").contains("{\"id\":3,\"firstName\":\"Kim\",\"lastName\":\"Bauer\",\"age\":22}").contains("{\"id\":8,\"firstName\":\"Pierre\",\"lastName\":\"Rapido\",\"age\":110}").contains("{\"id\":4,\"firstName\":\"David\",\"lastName\":\"Palmer\",\"age\":23}").contains("{\"id\":1,\"firstName\":\"Jack\",\"lastName\":\"Bauer\",\"age\":18}").contains("{\"id\":5,\"firstName\":\"Michelle\",\"lastName\":\"Dessler\",\"age\":110}").contains("{\"id\":7,\"firstName\":\"Jean-Mael\",\"lastName\":\"Itineo\",\"age\":110}").contains("{\"id\":2,\"firstName\":\"Chloe\",\"lastName\":\"O'Brian\",\"age\":18}");
+    }
 }
