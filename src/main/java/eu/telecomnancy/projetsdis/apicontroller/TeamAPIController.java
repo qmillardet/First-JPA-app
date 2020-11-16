@@ -1,19 +1,27 @@
 package eu.telecomnancy.projetsdis.apicontroller;
 
 import eu.telecomnancy.projetsdis.dto.TeamDTO;
+import eu.telecomnancy.projetsdis.entity.Person;
 import eu.telecomnancy.projetsdis.entity.Team;
 import eu.telecomnancy.projetsdis.exception.PersonNotFoundException;
+import eu.telecomnancy.projetsdis.repository.CustomerRepository;
 import eu.telecomnancy.projetsdis.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @RestController
 public class TeamAPIController {
     
     @Autowired
     private TeamRepository teamRepository;
+    
+    @Autowired
+    private CustomerRepository customerRepository;
     
     @GetMapping("/teams")
     public List<Team> getTeams(@RequestParam(value = "name", required = false) String name) {
@@ -56,5 +64,14 @@ public class TeamAPIController {
     @DeleteMapping("/team/{id}")
     public void deleteTeam(@PathVariable Long id) {
         teamRepository.deleteById(id);
+    }
+    
+    @GetMapping("/team/{id}/members")
+    public Set<Person> getMembersTeam(@PathVariable Long id) {
+        Optional<Team> team = teamRepository.findById(id);
+        if (team.isPresent()) {
+            return team.get().getMembers();
+        }
+        return new HashSet<>();
     }
 }

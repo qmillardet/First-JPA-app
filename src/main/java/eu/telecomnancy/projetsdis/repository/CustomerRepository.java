@@ -1,6 +1,7 @@
 package eu.telecomnancy.projetsdis.repository;
 
 import eu.telecomnancy.projetsdis.entity.Person;
+import eu.telecomnancy.projetsdis.entity.Team;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,4 +24,6 @@ public interface CustomerRepository extends JpaRepository<Person, Long> {
     
     @Query("SELECT a FROM Person a WHERE a.team is null")
     List<Person> findByAnyTeam();
+    
+    List<Person> findByTeam(Team byId);
 }

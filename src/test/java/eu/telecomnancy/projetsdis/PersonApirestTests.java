@@ -92,8 +92,6 @@ class PersonApirestTests {
         Assert.assertEquals(404, result.getStatusCodeValue());
     }
     
-    //[{"id":10,"firstName":"Pierette","lastName":"Pilote","age":110},{"id":12,"firstName":"Jeanne","lastName":"Hymmer","age":110}]
-    
     @Test
     void personWithoutTeam() {
         String body = this.restTemplate.getForObject("/persons/any/team", String.class);
