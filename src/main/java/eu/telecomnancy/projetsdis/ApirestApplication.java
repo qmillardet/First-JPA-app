@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class ApirestApplication {
     
-    
     private static final Logger log = LoggerFactory.getLogger(ApirestApplication.class);
     
     public static void main(String[] args) {

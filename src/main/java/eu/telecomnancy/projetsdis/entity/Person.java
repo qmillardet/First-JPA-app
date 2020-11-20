@@ -1,10 +1,12 @@
 package eu.telecomnancy.projetsdis.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import eu.telecomnancy.projetsdis.listner.PersonListner;
 
 import javax.persistence.*;
 
 @Entity
+@EntityListeners(PersonListner.class)
 public class Person {
     
     @Id
