@@ -1,6 +1,7 @@
 package eu.telecomnancy.projetsdis.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import eu.telecomnancy.projetsdis.listner.TeamListner;
 
 import javax.persistence.*;
 import java.util.Collections;
@@ -9,6 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@EntityListeners(TeamListner.class)
 public class Team {
     
     @Id
