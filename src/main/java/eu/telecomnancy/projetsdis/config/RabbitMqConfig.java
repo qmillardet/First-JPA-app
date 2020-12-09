@@ -1,4 +1,4 @@
-package eu.telecomnancy.projetsdis.apicontroller;
+package eu.telecomnancy.projetsdis.config;
 
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
