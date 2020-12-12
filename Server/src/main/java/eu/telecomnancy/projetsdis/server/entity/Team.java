@@ -18,7 +18,7 @@ public class Team {
     private Long id;
     private final Date creation = new Date();
     @JsonManagedReference
-    @OneToMany(mappedBy = "team", fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "team", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Person> members = new HashSet<>();
     private String name;
     

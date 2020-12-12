@@ -95,6 +95,6 @@ class PersonApirestTests {
     @Test
     void personWithoutTeam() {
         String body = this.restTemplate.getForObject("/persons/any/team", String.class);
-        assertThat(body).contains("{\"id\":10,\"firstName\":\"Pierette\",\"lastName\":\"Pilote\",\"age\":110},{\"id\":12,\"firstName\":\"Jeanne\",\"lastName\":\"Hymmer\",\"age\":110}]");
+        assertThat(body).contains("{\"id\":10,\"firstName\":\"Pierette\",\"lastName\":\"Pilote\",\"age\":110}").contains("{\"id\":12,\"firstName\":\"Jeanne\",\"lastName\":\"Hymmer\",\"age\":110}");
     }
 }
