@@ -1,5 +1,6 @@
 package eu.telecomnancy.projetsdis.server.config;
 
+import eu.telecomnancy.projetsdis.server.listner.RebootListener;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -24,6 +25,11 @@ public class RabbitMqConfig {
     @Bean
     public FanoutExchange fanout() {
         return new FanoutExchange("tut.fanout");
+    }
+    
+    @Bean
+    public RebootListener sender() {
+        return new RebootListener();
     }
 }
 

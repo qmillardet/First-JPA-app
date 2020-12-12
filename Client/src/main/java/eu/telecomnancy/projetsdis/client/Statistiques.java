@@ -90,4 +90,10 @@ public class Statistiques {
         }
     }
     
+    /**
+     * Fonction permettant de vider les données lorsque l'application est arrêtée
+     */
+    public static void dumpData() {
+        initialiseArray();
+    }
 }

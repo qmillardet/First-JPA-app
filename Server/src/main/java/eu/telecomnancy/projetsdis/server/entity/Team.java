@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-//@EntityListeners(TeamListner.class)
+@EntityListeners(TeamListner.class)
 public class Team {
     
     @Id
@@ -18,7 +18,7 @@ public class Team {
     private Long id;
     private final Date creation = new Date();
     @JsonManagedReference
-    @OneToMany(mappedBy = "team", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "team", fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     private Set<Person> members = new HashSet<>();
     private String name;
     

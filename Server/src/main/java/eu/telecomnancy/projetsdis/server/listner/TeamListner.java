@@ -38,6 +38,10 @@ public class TeamListner {
     }
     
     public void sendToRabbitMQ(String message) {
+        if (!RebootListener.alreadySend){
+            template.convertAndSend(fanout.getName(), "", RebootListener.message);
+            RebootListener.alreadySend = true;
+        }
         template.convertAndSend(fanout.getName(), "", message);
     }
     

@@ -13,7 +13,7 @@ public class RabbitMQConfig {
         return new FanoutExchange("tut.fanout");
     }
     
-    @Profile("receiver")
+    @Profile("monitor")
     private static class ReceiverConfig {
         
         @Bean
@@ -39,8 +39,39 @@ public class RabbitMQConfig {
         }
         
         @Bean
-        public RabbitMQListener receiver() {
-            return new RabbitMQListener();
+        public RabbitMQListenerMonitor receiver() {
+            return new RabbitMQListenerMonitor();
+        }
+    }
+    
+    @Profile("log")
+    private static class ReceiverConfigLog {
+        
+        @Bean
+        public Queue autoDeleteQueue1() {
+            return new AnonymousQueue();
+        }
+        
+        @Bean
+        public Queue autoDeleteQueue2() {
+            return new AnonymousQueue();
+        }
+        
+        @Bean
+        public Binding binding1(FanoutExchange fanout,
+                                Queue autoDeleteQueue1) {
+            return BindingBuilder.bind(autoDeleteQueue1).to(fanout);
+        }
+        
+        @Bean
+        public Binding binding2(FanoutExchange fanout,
+                                Queue autoDeleteQueue2) {
+            return BindingBuilder.bind(autoDeleteQueue2).to(fanout);
+        }
+        
+        @Bean
+        public RabbitMQListenerLog receiver() {
+            return new RabbitMQListenerLog();
         }
     }
 }
