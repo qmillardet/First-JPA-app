@@ -24,7 +24,6 @@ public class ApirestApplication {
     public CommandLineRunner demo(CustomerRepository repository, TeamRepository teamrepository) {
         return args -> {
             // save a few customers
-            log.info("Je commence bien là");
             String bauerStr = "Bauer";
             repository.save(new Person("Jack", bauerStr, 18));
             repository.save(new Person("Chloe", "O'Brian", 18));
