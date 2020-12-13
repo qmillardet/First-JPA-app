@@ -18,8 +18,7 @@ helpFunc () {
 
 AfficherToutesPersonnes() {
   allData=$(curl -s --location --request GET 'http://localhost:8080/persons' )
-  MiseEnFormePersonneAffichage $allData
-
+  MiseEnFormePersonnesAffichage $allData
 }
 
 AfficherPersonnesParID() {
@@ -52,9 +51,85 @@ MiseEnFormePersonneAffichage() {
 affichageAideTest () {
   echo -e "Bienvenu dans le rpgramme d'execution des requêtes "
   echo -e ""
+  echo -e "Personne : "
+  echo -e ""
   echo -e "    ap \t: permet d'afficher l'intégralité des personnes présentes dans l'application dans le format JSON"
   echo -e "    apbyid \t: permet d'afficher une personne à partir de son id"
-  echo -e "    --server \t: Lance le serveur de l'application"
+  echo -e "    addp \t: permet d'ajouter une personne en saisissant ses informations"
+}
+
+AddPersonne() {
+    read -p 'Nom : ' nom
+    read -p 'Prenom : ' prenom
+    read -p 'Age : ' age
+    curl --location --request POST 'http://localhost:8080/person/create' \
+--header 'Content-Type: application/json' \
+--data-raw "{
+    \"firstName\" : \"$nom\",
+    \"lastName\" : \"$prenom\",
+    \"age\" : $age
+  }"
+  if [[ $? -eq 0 ]]
+  then
+      echo "Envoi effectuée"
+  else
+    echo "Une erreur s'est produite lors de l'ajout"
+  fi
+}
+
+EditPersonne() {
+    read -p 'Identifiant de la personne à modifier : ' id
+    allData=$(curl -s --location --request GET "http://localhost:8080/person/$id")
+    if [[ $? -eq 0 ]]
+    then
+      nom=""
+      prenom=""
+      age=""
+      prenomarr=( $(jq -r '.firstName' <<< $allData) )
+      nomarr=( $(jq -r '.lastName' <<< $allData) )
+      agearr=( $(jq -r '.age' <<< $allData) )
+      read -p "Nom (${nomarr[0]}) : " nomTmp
+      if [[ ! -z "$nomTmp" ]]
+      then
+        nom=$nomTmp
+      fi
+      read -p "Preom (${prenomarr[0]}) : " prenomTmp
+      if [[ ! -z "$prenomTmp" ]]
+      then
+        prenom=$prenomTmp
+      fi
+      read -p "Age (${agearr[0]}) : " ageTmp
+      if [[ ! -z "$ageTmp" ]]
+      then
+        age=$ageTmp
+      fi
+      curl --location --request PUT 'http://localhost:8080/person/16' \
+  --header 'Content-Type: application/json' \
+  --data-raw "{
+      \"firstName\" : \"$prenom\",
+      \"lastName\" : \"$nom\",
+      \"age\" : $age
+  }"
+    if [[ $? -eq 0 ]]
+    then
+        echo "Envoi effectuée"
+    else
+      echo "Une erreur s'est produite lors de l'ajout"
+    fi
+  fi
+}
+
+DeletePerson() {
+  read -p 'Id de la personne à supprimer (q pour quitter) : ' idPersonne
+  if [[ $idPerson != "q" ]]; then
+    allData=$(curl -s --location --request DELETE "http://localhost:8080/person/$idPersonne")
+    if [[ $? -eq 0 ]]
+    then
+        echo "Suppression effectuée"
+    else
+      echo "Une erreur s'est produite lors de la suppression"
+    fi
+  fi
 }
 
 TestMain() {
@@ -66,6 +141,9 @@ TestMain() {
     h|help) affichageAideTest;;
     ap | afficherpersonne) AfficherToutesPersonnes;;
     apbyid | afficherpersonnebyid) AfficherPersonnesParID;;
+    addp | addperson) AddPersonne;;
+    editp | editperson) EditPersonne;;
+    delp | deleteperson) DeletePerson;;
     q | quit | exit) exit 0;;
     *) affichageAideTest;;
   esac
