@@ -15,6 +15,11 @@ helpFunc () {
   echo -e "    --server \t: Lance le serveur de l'application"
 }
 
+                              ############
+                              # Personne #
+                              ############
+
+
 
 AfficherToutesPersonnes() {
   allData=$(curl -s --location --request GET 'http://localhost:8080/persons' )
@@ -30,21 +35,38 @@ AfficherPersonnesParID() {
 }
 
 MiseEnFormePersonnesAffichage() {
+    retourLine="\n";
+    echo "test : $1"
+    if [[ $# -ge 2 ]]
+    then
+      if [[ $2 == "true" ]]
+      then
+        retourLine=""
+      fi
+    fi
     id=( $(jq -r '.[].id' <<< $1) )
     prenom=( $(jq -r '.[].firstName' <<< $1) )
     nom=( $(jq -r '.[].lastName' <<< $1) )
     age=( $(jq -r '.[].age' <<< $1) )
     for ((i = 0 ; i <  ${#id[@]}; i++)); do
-      printf 'id : %s, nom : %s, pernom : %s, age : %s\n' "${id[$i]}" "${prenom[$i]}" "${nom[$i]}" "${age[$i]}"
+      printf 'id : %s, nom : %s, pernom : %s, age : %s %s' "${id[$i]}" "${prenom[$i]}" "${nom[$i]}" "${age[$i]}" "$retourLine"
     done
 }
 MiseEnFormePersonneAffichage() {
+  retourLine="\n";
+    if [[ $# -ge 2 ]]
+    then
+      if [[ $2 == "true" ]]
+      then
+        retourLine=""
+      fi
+    fi
     id=( $(jq -r '.id' <<< $1) )
     prenom=( $(jq -r '.firstName' <<< $1) )
     nom=( $(jq -r '.lastName' <<< $1) )
     age=( $(jq -r '.age' <<< $1) )
     for ((i = 0 ; i <  ${#id[@]}; i++)); do
-      printf 'id : %s, nom : %s, pernom : %s, age : %s\n' "${id[$i]}" "${prenom[$i]}" "${nom[$i]}" "${age[$i]}"
+      printf 'id : %s, nom : %s, pernom : %s, age : %s %s' "${id[$i]}" "${prenom[$i]}" "${nom[$i]}" "${age[$i]}" "$retourLine"
     done
 }
 
@@ -132,18 +154,59 @@ DeletePerson() {
   fi
 }
 
+                              ########
+                              # Team #
+                              ########
+
+AfficherToutesEquipes() {
+  allData=$(curl -s --location --request GET 'http://localhost:8080/teams' )
+  MiseEnFormeEquipesAffichage $allData
+}
+
+AfficherTeamParID() {
+  read -p "Id de l'équipe recherchée : " idPersonne
+  if [[ $idPerson != "q" ]]; then
+    allData=$(curl -s --location --request GET "http://localhost:8080/tezm/$idPersonne")
+    MiseEnFormePersonneAffichage $allData
+  fi
+}
+
+MiseEnFormeEquipesAffichage() {
+    id=( $(jq -r '.[].id' <<< $1) )
+    creation=( $(jq -r '.[].creation' <<< $1) )
+    members=( $(jq -r '.[].members' <<< $1) )
+    name=( $(jq -r '.[].name' <<< $1) )
+    complete=( $(jq -r '.[].complete' <<< $1) )
+    for ((i = 0 ; i <  ${#id[@]}; i++)); do
+      printf 'id : %s, creation : %s, nom : %s, liste des membres : [' "${id[$i]}" "${creation[$i]}" "${name[$i]}"
+      AfficherToutesPersonnes "${members[$i]}" "true"
+      printf '], complete : %s \n ' "${complete[$i]}"
+
+    done
+}
+MiseEnFormePersonneAffichage() {
+    id=( $(jq -r '.id' <<< $1) )
+    prenom=( $(jq -r '.firstName' <<< $1) )
+    nom=( $(jq -r '.lastName' <<< $1) )
+    age=( $(jq -r '.age' <<< $1) )
+    for ((i = 0 ; i <  ${#id[@]}; i++)); do
+      printf 'id : %s, nom : %s, pernom : %s, age : %s\n' "${id[$i]}" "${prenom[$i]}" "${nom[$i]}" "${age[$i]}"
+    done
+}
+
 TestMain() {
  while true; do
    read -p "Entrez votre commande (\"h\" pour l'aide) : " commande
    # case sur une variable d'environnement.
 
   case $commande in
-    h|help) affichageAideTest;;
     ap | afficherpersonne) AfficherToutesPersonnes;;
     apbyid | afficherpersonnebyid) AfficherPersonnesParID;;
     addp | addperson) AddPersonne;;
     editp | editperson) EditPersonne;;
     delp | deleteperson) DeletePerson;;
+    at | affichageteam) AfficherToutesEquipes;;
+    atbyid | afficherteamnebyid) AfficherTeamParID;;
     q | quit | exit) exit 0;;
     *) affichageAideTest;;
   esac
