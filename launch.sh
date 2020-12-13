@@ -36,7 +36,6 @@ AfficherPersonnesParID() {
 
 MiseEnFormePersonnesAffichage() {
     retourLine="\n";
-    echo "test : $1"
     if [[ $# -ge 2 ]]
     then
       if [[ $2 == "true" ]]
@@ -125,7 +124,7 @@ EditPersonne() {
       then
         age=$ageTmp
       fi
-      curl --location --request PUT 'http://localhost:8080/person/16' \
+      curl --location --request PUT "http://localhost:8080/person/$id" \
   --header 'Content-Type: application/json' \
   --data-raw "{
       \"firstName\" : \"$prenom\",
@@ -177,10 +176,11 @@ MiseEnFormeEquipesAffichage() {
     members=( $(jq -r '.[].members' <<< $1) )
     name=( $(jq -r '.[].name' <<< $1) )
     complete=( $(jq -r '.[].complete' <<< $1) )
-    for ((i = 0 ; i <  ${#id[@]}; i++)); do
-      printf 'id : %s, creation : %s, nom : %s, liste des membres : [' "${id[$i]}" "${creation[$i]}" "${name[$i]}"
-      AfficherToutesPersonnes "${members[$i]}" "true"
-      printf '], complete : %s \n ' "${complete[$i]}"
+    echo ${id[@]}
+    for ((iTeam = 0 ; iTeam <=  ${#id[@]}; iTeam++)); do
+      printf 'id : %s, creation : %s, nom : %s, liste des membres : [' "${id[$iTeam]}" "${creation[$iTeam]}" "${name[$iTeam]}"
+      AfficherToutesPersonnes "${members[$iTeam]}" "true"
+      printf '], complete : %s \n ' "${complete[$iTeam]}"
     done
 }
 MiseEnFormeEquipeAffichage() {
@@ -196,6 +196,60 @@ MiseEnFormeEquipeAffichage() {
     done
 }
 
+AddTeam() {
+    read -p 'Nom : ' nom
+    curl --location --request POST 'http://localhost:8080/team/create' \
+--header 'Content-Type: application/json' \
+--data-raw "{
+    \"name\": \"$nom\"
+}"
+  if [[ $? -eq 0 ]]
+  then
+      echo "Envoi effectuée"
+  else
+    echo "Une erreur s'est produite lors de l'ajout"
+  fi
+}
+
+EditTeam() {
+    read -p "Identifiant de l'équipe à modifier : " id
+    allData=$(curl -s --location --request GET "http://localhost:8080/team/$id")
+    if [[ $? -eq 0 ]]
+    then
+      nom=""
+      nomarr=( $(jq -r '.name' <<< $allData) )
+      read -p "Nom (${nomarr[0]}) : " nomTmp
+      if [[ ! -z "$nomTmp" ]]
+      then
+        nom=$nomTmp
+      fi
+      curl --location --request PUT "http://localhost:8080/team/$id" \
+  --header 'Content-Type: application/json' \
+  --data-raw "{
+      \"name\" : \"$nom\"
+  }"
+    if [[ $? -eq 0 ]]
+    then
+        echo "Envoi effectuée"
+    else
+      echo "Une erreur s'est produite lors de l'ajout"
+    fi
+  fi
+}
+
+DeleteEquipe() {
+  read -p "Id de l'équipe à supprimer (q pour quitter) : " idTeam
+  if [[ $idTeam != "q" ]]; then
+    allData=$(curl -s --location --request DELETE "http://localhost:8080/team/$idTeam")
+    if [[ $? -eq 0 ]]
+    then
+        echo "Suppression effectuée"
+    else
+      echo "Une erreur s'est produite lors de la suppression"
+    fi
+  fi
+}
+
 TestMain() {
  while true; do
    read -p "Entrez votre commande (\"h\" pour l'aide) : " commande
@@ -209,6 +263,9 @@ TestMain() {
     delp | deleteperson) DeletePerson;;
     at | affichageteam) AfficherToutesEquipes;;
     atbyid | afficherteamnebyid) AfficherTeamParID;;
+    addt | addteam) AddTeam;;
+    editt | editteam) EditTeam;;
+    delt | deleteteam) DeleteTeam;;
     q | quit | exit) exit 0;;
     *) affichageAideTest;;
   esac
