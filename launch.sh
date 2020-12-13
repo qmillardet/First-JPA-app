@@ -166,8 +166,8 @@ AfficherToutesEquipes() {
 AfficherTeamParID() {
   read -p "Id de l'équipe recherchée : " idPersonne
   if [[ $idPerson != "q" ]]; then
-    allData=$(curl -s --location --request GET "http://localhost:8080/tezm/$idPersonne")
-    MiseEnFormePersonneAffichage $allData
+    allData=$(curl -s --location --request GET "http://localhost:8080/team/$idPersonne")
+    MiseEnFormeEquipeAffichage $allData
   fi
 }
 
@@ -181,16 +181,18 @@ MiseEnFormeEquipesAffichage() {
       printf 'id : %s, creation : %s, nom : %s, liste des membres : [' "${id[$i]}" "${creation[$i]}" "${name[$i]}"
       AfficherToutesPersonnes "${members[$i]}" "true"
       printf '], complete : %s \n ' "${complete[$i]}"
-
     done
 }
-MiseEnFormePersonneAffichage() {
+MiseEnFormeEquipeAffichage() {
     id=( $(jq -r '.id' <<< $1) )
-    prenom=( $(jq -r '.firstName' <<< $1) )
-    nom=( $(jq -r '.lastName' <<< $1) )
-    age=( $(jq -r '.age' <<< $1) )
+    creation=( $(jq -r '.creation' <<< $1) )
+    members=( $(jq -r '.members' <<< $1) )
+    name=( $(jq -r '.name' <<< $1) )
+    complete=( $(jq -r '.complete' <<< $1) )
     for ((i = 0 ; i <  ${#id[@]}; i++)); do
-      printf 'id : %s, nom : %s, pernom : %s, age : %s\n' "${id[$i]}" "${prenom[$i]}" "${nom[$i]}" "${age[$i]}"
+      printf 'id : %s, creation : %s, nom : %s, liste des membres : [' "${id[$i]}" "${creation[$i]}" "${name[$i]}"
+      AfficherToutesPersonnes "${members[$i]}" "true"
+      printf '], complete : %s \n ' "${complete[$i]}"
     done
 }
 
