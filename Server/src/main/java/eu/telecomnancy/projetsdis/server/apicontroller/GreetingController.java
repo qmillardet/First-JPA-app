@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
-public class GreetingController {
+public class  GreetingController {
     
     private static final String TEMPLATE = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();

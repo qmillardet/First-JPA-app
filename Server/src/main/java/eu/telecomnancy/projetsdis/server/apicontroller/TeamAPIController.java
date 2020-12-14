@@ -5,6 +5,7 @@ import eu.telecomnancy.projetsdis.server.entity.Person;
 import eu.telecomnancy.projetsdis.server.entity.Team;
 import eu.telecomnancy.projetsdis.server.exception.TeamNotFoundException;
 import eu.telecomnancy.projetsdis.server.repository.TeamRepository;
+import eu.telecomnancy.projetsdis.server.repository.CustomerRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
@@ -16,11 +17,18 @@ import java.util.Set;
 public class TeamAPIController {
     
     private final TeamRepository teamRepository;
+    private final CustomerRepository customerRepository;
     
-    public TeamAPIController(TeamRepository teamRepository) {
+    public TeamAPIController(TeamRepository teamRepository, CustomerRepository customerRepository) {
         this.teamRepository = teamRepository;
+        this.customerRepository = customerRepository;
     }
     
+    /**
+     * Route Get permettant de récupérer l'ensemble des équipe ou une equipe en utilisant son nom en option
+     * @param name (Optionnel) Nom de l'équipe souhaitée
+     * @return Liste des équipes selon les critères souhaités
+     */
     @GetMapping("/teams")
     public List<Team> getTeams(@RequestParam(value = "name", required = false) String name) {
         if (name != null) {
@@ -29,11 +37,22 @@ public class TeamAPIController {
         return teamRepository.findAll();
     }
     
+    /**
+     * Route GET permettant de révcupérer une équipe par son identiant
+     * @param id Identifiant de l'équipe voulue
+     * @return Les informations de l'équipe souhaitée
+     * @throws TeamNotFoundException
+     */
     @GetMapping("/team/{id}")
     public Team getTeam(@PathVariable Long id) throws TeamNotFoundException {
         return teamRepository.findById(id).orElseThrow(() -> new TeamNotFoundException(id));
     }
     
+    /**
+     * Route POST permettant de créer une équipe avec ces informations passée dans la body
+     * @param newTeam Informations de l'équipe à créer
+     * @return l'équipe nouvellement crée
+     */
     @PostMapping("/team/create")
     public Team getTeam(@RequestBody TeamDTO newTeam) {
         Team team = new Team();
@@ -42,6 +61,12 @@ public class TeamAPIController {
         return teamRepository.save(team);
     }
     
+    /**
+     * Route PUT permettant d'éditer une équipe
+     * @param newTeam informtations
+     * @param id
+     * @return
+     */
     @PutMapping("/team/{id}")
     public Team replaceTeam(@RequestBody TeamDTO newTeam, @PathVariable Long id) {
         
