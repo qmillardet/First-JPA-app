@@ -70,13 +70,29 @@ MiseEnFormePersonneAffichage() {
 }
 
 affichageAideTest () {
-  echo -e "Bienvenu dans le rpgramme d'execution des requêtes "
+  echo -e "Bienvenu dans le programme d'exécution des requêtes "
+  echo -e ""
+  echo -e "Commandes générales : "
+  echo -e ""
+  echo -e "    help | h \t: Affiche cette aide"
+  echo -e "    quit | q \t: Arrêt du programme"
   echo -e ""
   echo -e "Personne : "
   echo -e ""
-  echo -e "    ap \t: permet d'afficher l'intégralité des personnes présentes dans l'application dans le format JSON"
+  echo -e "    ap \t\t: permet d'afficher l'intégralité des personnes présentes dans l'application dans le format JSON"
   echo -e "    apbyid \t: permet d'afficher une personne à partir de son id"
   echo -e "    addp \t: permet d'ajouter une personne en saisissant ses informations"
+  echo -e "    editp \t: permet d'éditer une personne en saisissant ses informations"
+  echo -e "    delp \t: permet de supprimer une personne via son identifiant"
+  echo -e ""
+  echo -e "Équipe : "
+  echo -e ""
+  echo -e "    at \t\t: permet d'ajouter une équipe en saisissant ses informations"
+  echo -e "    atbyid \t: permet d'afficher une équipe à partir de son id"
+  echo -e "    addt \t: permet d'ajouter une équipe en saisissant ses informations"
+  echo -e "    editt \t: permet d'éditer une équipe en saisissant ses informations"
+  echo -e "    delt \t: permet de supprimer une équipe via son identifiant"
+
 }
 
 AddPersonne() {
