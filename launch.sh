@@ -171,28 +171,25 @@ AfficherTeamParID() {
 }
 
 MiseEnFormeEquipesAffichage() {
-    id=( $(jq -r '.[].id' <<< $1) )
+    idTeam=( $(jq -r '.[].id' <<< $1) )
     creation=( $(jq -r '.[].creation' <<< $1) )
-    members=( $(jq -r '.[].members' <<< $1) )
     name=( $(jq -r '.[].name' <<< $1) )
     complete=( $(jq -r '.[].complete' <<< $1) )
-    echo ${id[@]}
-    for ((iTeam = 0 ; iTeam <=  ${#id[@]}; iTeam++)); do
-      printf 'id : %s, creation : %s, nom : %s, liste des membres : [' "${id[$iTeam]}" "${creation[$iTeam]}" "${name[$iTeam]}"
-      AfficherToutesPersonnes "${members[$iTeam]}" "true"
-      printf '], complete : %s \n ' "${complete[$iTeam]}"
+
+    for ((iTeam = 0 ; iTeam <  ${#idTeam[@]}; iTeam++)); do
+      printf 'id : %s, creation : %s, nom : %s, ' "${idTeam[$iTeam]}" "${creation[$iTeam]}" "${name[$iTeam]}"
+      printf 'complete : %s \n ' "${complete[$iTeam]}"
     done
 }
 MiseEnFormeEquipeAffichage() {
-    id=( $(jq -r '.id' <<< $1) )
+    idTeam=( $(jq -r '.id' <<< $1) )
     creation=( $(jq -r '.creation' <<< $1) )
-    members=( $(jq -r '.members' <<< $1) )
     name=( $(jq -r '.name' <<< $1) )
     complete=( $(jq -r '.complete' <<< $1) )
-    for ((i = 0 ; i <  ${#id[@]}; i++)); do
-      printf 'id : %s, creation : %s, nom : %s, liste des membres : [' "${id[$i]}" "${creation[$i]}" "${name[$i]}"
-      AfficherToutesPersonnes "${members[$i]}" "true"
-      printf '], complete : %s \n ' "${complete[$i]}"
+
+    for ((iTeam = 0 ; iTeam <  ${#idTeam[@]}; iTeam++)); do
+      printf 'id : %s, creation : %s, nom : %s, ' "${idTeam[$iTeam]}" "${creation[$iTeam]}" "${name[$iTeam]}"
+      printf 'complete : %s \n ' "${complete[$iTeam]}"
     done
 }
 
