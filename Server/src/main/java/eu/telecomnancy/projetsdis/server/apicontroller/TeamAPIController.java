@@ -104,4 +104,20 @@ public class TeamAPIController {
         team.removeIf(t -> !t.isComplete());
         return team;
     }
+    
+    @PutMapping("/team/add/person/{idPerson}/{idTeam}")
+
+    public Team getMembersTeam(@PathVariable Long idPerson, @PathVariable Long idTeam) {
+        Optional<Team> team = teamRepository.findById(idTeam);
+        Optional<Person> person = customerRepository.findById(idPerson);
+        if (team.isPresent() && person.isPresent()) {
+            if (!team.get().isComplete()){
+                team.get().addMembers(person.get());
+                person.get().setTeam(team.get());
+                customerRepository.save(person.get());
+            }
+            return teamRepository.save(team.get());
+        }
+        return null;
+    }
 }
