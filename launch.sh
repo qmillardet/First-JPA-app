@@ -4,7 +4,7 @@
 # Script permettant le lancement du server  et des clients #
 ############################################################
 
-BASEURL="https://localhost:8080"
+BASEURL="http://localhost:8080"
 
 
 helpFunc () {
@@ -13,6 +13,8 @@ helpFunc () {
   echo -e "    --log \t: Génère l'affichage de log sans accéder à la base de donnée via rabbitMQ"
   echo -e "    --monitor \t: Lance un monitoring temps réel dans la console"
   echo -e "    --server \t: Lance le serveur de l'application"
+  echo -e "    --test \t: L'interface d'interaction de l'application avec l'API"
+  echo -e "    --bulk \t: Le script va créer 8 personnes puis une équipe et va les ajouter dans l'équipe"
 }
 
 affichageAideTest () {
@@ -48,14 +50,14 @@ affichageAideTest () {
 
 
 AfficherToutesPersonnes() {
-  allData=$(curl -s --location --request GET 'http://localhost:8080/persons' )
+  allData=$(curl -s --location --request GET "$BASEURL/persons" )
   MiseEnFormePersonnesAffichage $allData
 }
 
 AfficherPersonnesParID() {
   read -p 'Id de la personne recherchée : ' idPersonne
   if [[ $idPerson != "q" ]]; then
-    allData=$(curl -s --location --request GET "http://localhost:8080/person/$idPersonne")
+    allData=$(curl -s --location --request GET "$BASEURL/person/$idPersonne")
     MiseEnFormePersonneAffichage $allData
   fi
 }
@@ -101,7 +103,7 @@ AddPersonne() {
     read -p 'Nom : ' nom
     read -p 'Prenom : ' prenom
     read -p 'Age : ' age
-    curl --location --request POST 'http://localhost:8080/person/create' \
+    curl --location --request POST "$BASEURL/person/create" \
 --header 'Content-Type: application/json' \
 --data-raw "{
     \"firstName\" : \"$nom\",
@@ -122,7 +124,7 @@ AddPersonneBoucle() {
     age=33;
     i=0;
     while true; do
-      curl --location --request POST 'http://localhost:8080/person/create' \
+      curl --location --request POST "$BASEURL/person/create" \
   --header 'Content-Type: application/json' \
   --data-raw "{
       \"firstName\" : \"$nom$i\",
@@ -143,7 +145,7 @@ AddPersonneBoucle() {
 
 EditPersonne() {
     read -p 'Identifiant de la personne à modifier : ' id
-    allData=$(curl -s --location --request GET "http://localhost:8080/person/$id")
+    allData=$(curl -s --location --request GET "$BASEURL/person/$id")
     if [[ $? -eq 0 ]]
     then
       nom=""
@@ -167,7 +169,7 @@ EditPersonne() {
       then
         age=$ageTmp
       fi
-      curl --location --request PUT "http://localhost:8080/person/$id" \
+      curl --location --request PUT "$BASEURL/person/$id" \
   --header 'Content-Type: application/json' \
   --data-raw "{
       \"firstName\" : \"$prenom\",
@@ -186,7 +188,7 @@ EditPersonne() {
 DeletePerson() {
   read -p 'Id de la personne à supprimer (q pour quitter) : ' idPersonne
   if [[ $idPerson != "q" ]]; then
-    allData=$(curl -s --location --request DELETE "http://localhost:8080/person/$idPersonne")
+    allData=$(curl -s --location --request DELETE "$BASEURL/person/$idPersonne")
     if [[ $? -eq 0 ]]
     then
         echo "Suppression effectuée"
@@ -201,14 +203,14 @@ DeletePerson() {
                               ########
 
 AfficherToutesEquipes() {
-  allData=$(curl -s --location --request GET 'http://localhost:8080/teams' )
+  allData=$(curl -s --location --request GET "$BASEURL/teams" )
   MiseEnFormeEquipesAffichage $allData
 }
 
 AfficherTeamParID() {
   read -p "Id de l'équipe recherchée : " idPersonne
   if [[ $idPerson != "q" ]]; then
-    allData=$(curl -s --location --request GET "http://localhost:8080/team/$idPersonne")
+    allData=$(curl -s --location --request GET "$BASEURL/team/$idPersonne")
     MiseEnFormeEquipeAffichage $allData
   fi
 }
@@ -238,7 +240,7 @@ MiseEnFormeEquipeAffichage() {
 
 AddTeam() {
     read -p 'Nom : ' nom
-    curl --location --request POST 'http://localhost:8080/team/create' \
+    curl --location --request POST "$BASEURL/team/create" \
 --header 'Content-Type: application/json' \
 --data-raw "{
     \"name\": \"$nom\"
@@ -253,7 +255,7 @@ AddTeam() {
 
 EditTeam() {
     read -p "Identifiant de l'équipe à modifier : " id
-    allData=$(curl -s --location --request GET "http://localhost:8080/team/$id")
+    allData=$(curl -s --location --request GET "$BASEURL/team/$id")
     if [[ $? -eq 0 ]]
     then
       nom=""
@@ -263,7 +265,7 @@ EditTeam() {
       then
         nom=$nomTmp
       fi
-      curl --location --request PUT "http://localhost:8080/team/$id" \
+      curl --location --request PUT "$BASEURL/team/$id" \
   --header 'Content-Type: application/json' \
   --data-raw "{
       \"name\" : \"$nom\"
@@ -280,7 +282,7 @@ EditTeam() {
 DeleteEquipe() {
   read -p "Id de l'équipe à supprimer (q pour quitter) : " idTeam
   if [[ $idTeam != "q" ]]; then
-    allData=$(curl -s --location --request DELETE "http://localhost:8080/team/$idTeam")
+    allData=$(curl -s --location --request DELETE "$BASEURL/team/$idTeam")
     if [[ $? -eq 0 ]]
     then
         echo "Suppression effectuée"
@@ -313,6 +315,68 @@ TestMain() {
  done
 }
 
+unknownCommand() {
+  echo "Argument inconnu. Essayez l'argument --help pour voir les commandes disponibles"
+  exit 1
+}
+BulkMode() {
+    nom=test;
+    prenom=ptest;
+    age=33;
+    i=0;
+    nbpersonne=0;
+    teamName=PSG;
+    id_array=(0 0 0 0 0 0 0 0);
+    while true; do
+      if [[ $nbpersonne -lt 8 ]]
+        then
+        req=$(curl -s --location --request POST "$BASEURL/person/create" \
+    --header 'Content-Type: application/json' \
+    --data-raw "{
+        \"firstName\" : \"$nom$i\",
+        \"lastName\" : \"$prenom$i\",
+        \"age\" : $age
+      }")
+      if [[ $? -eq 0 ]]
+      then
+        echo "Ajout de la personné n°$i effectuée"
+        nbpersonne=$((nbpersonne+1))
+        id=( $(jq -r '.id' <<< $req) )
+        id_array[$nbpersonne]=$id;
+        i=$((i+1))
+        age=$((age+1))
+      else
+        echo "Une erreur s'est produite lors de l'ajout"
+      fi
+    else
+      req=$(curl -s --location --request POST "$BASEURL/team/create" \
+--header 'Content-Type: application/json' \
+--data-raw "{
+    \"name\": \"$teamName$i\"
+}")
+      if [[ $? -eq 0 ]]
+        then
+            echo "Equipe crée"
+        else
+          echo "Une erreur s'est produite lors de l'ajout"
+        fi
+      idTeam=( $(jq -r '.id' <<< $req) )
+      for idPerson in "${id_array[@]}"
+      do
+        res=$(curl -s --location --request PUT "$BASEURL/team/$idTeam/add/person/$idPerson")
+        if [[ $? -eq 0 ]]
+        then
+            echo "Personne d'id : $idPerson associée à l'équipe d'id : $idTeam"
+        else
+          echo "Une erreur s'est produite lors de l'ajout"
+        fi
+      done
+      nbpersonne=0
+    fi
+    Sleep 1
+  done
+}
+
 if [[ $# -ge 1 ]]
 then
   if [[ $1 == "--server" ]]
@@ -333,9 +397,15 @@ then
   elif [[ $1 == "--test" ]]
   then
     TestMain
-  else
+  elif [[ $1 == "--bulk" ]]
+  then
+    BulkMode
+  elif [[ $1 == "--help" ]]
+  then
     helpFunc $0
+  else
+    unknownCommand
   fi
 else
-  helpFunc $0
+  unknownArgument
 fi
