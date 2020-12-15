@@ -29,7 +29,7 @@ Une liste plus détaillée est disponible dans le README de chaque dossier [Serv
 ### Le script
 
 Le script automatique est basé sur Bash (ne fonctionne pas en zsh). Pour fonctionner, ik necessite que la version de JAVA soit la 11 au minimum. 
-Pour utiliser l'interface de test, la lecture des éléments en JSON passe par le parser [jq](https://stedolan.github.io/jq/), il est disponible au téléchargement sur de multiples plateformes : [Télécharger JQ](https://stedolan.github.io/jq/download/)
+Pour utiliser l'interface de test ou le mode bulk, la lecture des éléments en JSON passe par le parser [jq](https://stedolan.github.io/jq/), il est disponible au téléchargement sur de multiples plateformes : [Télécharger JQ](https://stedolan.github.io/jq/download/)
 
 ## Utilisation
 
