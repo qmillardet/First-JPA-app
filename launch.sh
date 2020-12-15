@@ -13,7 +13,7 @@ helpFunc () {
   echo -e "    --log \t: Génère l'affichage de log sans accéder à la base de donnée via rabbitMQ"
   echo -e "    --monitor \t: Lance un monitoring temps réel dans la console"
   echo -e "    --server \t: Lance le serveur de l'application"
-  echo -e "    --test \t: L'interface d'interaction de l'application avec l'API"
+  echo -e "    --interact \t: L'interface d'interaction de l'application avec l'API"
   echo -e "    --bulk \t: Le script va créer 8 personnes puis une équipe et va les ajouter dans l'équipe"
 }
 
@@ -394,7 +394,7 @@ then
     cd Client/
     ./gradlew build
     ./gradlew bootRun --args="--spring.profiles.active=log"
-  elif [[ $1 == "--test" ]]
+  elif [[ $1 == "--interact" ]]
   then
     TestMain
   elif [[ $1 == "--bulk" ]]

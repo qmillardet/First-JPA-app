@@ -37,7 +37,7 @@ Un script bash permet d'automatiser le lancement. Il est disponible avec de nomb
 - ```--server```     pour compiler et lancer le server automatiquement
 - ```--log```        pour compiler et lancer le client de log
 - ```--monitoring``` pour compiler et lancer le client de monitoring
-- ```--test```       pour lancer l'interface de test. 
+- ```--interact```       pour lancer l'interface de test. 
 - ```--bulk```       pour lancer le mode Bulk. Il lance automatiquement l'envoie de requêtes (creation de 8 personnes puis ajout d'une équipe et ajout de ces personnes dans l'équipe)
 - ```--bulk --launchServer```Il lance automatiquement le serveur, le client de log, le client de monitoring, et l'envoie de requêtes (creation de 8 personnes puis ajout d'une équipe et ajout de ces personnes dans l'équipe). Les fichiers d'affichage des informations sont dans le dossier /tmp/
 
