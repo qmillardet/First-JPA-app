@@ -399,7 +399,25 @@ then
     TestMain
   elif [[ $1 == "--bulk" ]]
   then
-    BulkMode
+    if [[ $# -ge 2 ]]
+    then
+      if [[ $2 == "--launchServer" ]]
+      then
+        cd Client
+        ./gradlew build
+        ./gradlew bootRun --args="--spring.profiles.active=log" > /tmp/projetSDISMillardetClientLog.log &
+        ./gradlew build
+        ./gradlew bootRun --args="--spring.profiles.active=monitor" > /tmp/projetSDISMillardetClientMonitor.log &
+        cd ../Server
+        ./gradlew build
+        ./gradlew bootRun > /tmp/projetSDISMillardetServer.log &
+        BulkMode >/tmp/projetSDISMillardetBulkMode.log &
+        tail -f /tmp/projetSDISMillardetClientMonitor.log
+      fi
+
+    else
+      BulkMode
+    fi
   elif [[ $1 == "--help" ]]
   then
     helpFunc $0
