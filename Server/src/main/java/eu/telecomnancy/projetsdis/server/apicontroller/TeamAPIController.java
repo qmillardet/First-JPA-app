@@ -105,7 +105,7 @@ public class TeamAPIController {
         return team;
     }
     
-    @PutMapping("/team/add/person/{idPerson}/{idTeam}")
+    @PutMapping("/team/{idTeam}/add/person/{idPerson}")
 
     public Team getMembersTeam(@PathVariable Long idPerson, @PathVariable Long idTeam) {
         Optional<Team> team = teamRepository.findById(idTeam);
