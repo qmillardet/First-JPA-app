@@ -63,9 +63,9 @@ public class TeamAPIController {
     
     /**
      * Route PUT permettant d'éditer une équipe
-     * @param newTeam informtations
-     * @param id
-     * @return
+     * @param newTeam informtationsde l'équipe
+     * @param id Idenfiant de l'équioe à modifier
+     * @return Nouvelle équipe
      */
     @PutMapping("/team/{id}")
     public Team replaceTeam(@RequestBody TeamDTO newTeam, @PathVariable Long id) {
@@ -84,11 +84,20 @@ public class TeamAPIController {
                        });
     }
     
+    /**
+     * Route DELETE permettant de supprimer une équipe
+     * @param id Idenfiant de l'équipe à suppirmer
+     */
     @DeleteMapping("/team/{id}")
     public void deleteTeam(@PathVariable Long id) {
         teamRepository.deleteById(id);
     }
     
+    /**
+     * Route GET permettant de récupérer les membres d'une équipe
+     * @param id Identifiant d'une équipe
+     * @return Liste des membres d'une "quipe
+     */
     @GetMapping("/team/{id}/members")
     public Set<Person> getMembersTeam(@PathVariable Long id) {
         Optional<Team> team = teamRepository.findById(id);
@@ -98,6 +107,10 @@ public class TeamAPIController {
         return new HashSet<>();
     }
     
+    /**
+     * Route GET permettant de récupérer l'ensemble des équipes complètes
+     * @return L'ensemble des équipes complètes
+     */
     @GetMapping("/teams/complete")
     public List<Team> getCompleteTeam() {
         List<Team> team = teamRepository.findAll();
@@ -105,9 +118,15 @@ public class TeamAPIController {
         return team;
     }
     
+    /**
+     * Route PUT permettant de faire l'ajout d'une personne à une équipe
+     * @param idPerson Identifiant de la personne à ajouter
+     * @param idTeam Identifiant de la personne à supprimer
+     * @return L'équipe avant modification
+     */
     @PutMapping("/team/{idTeam}/add/person/{idPerson}")
 
-    public Team addMembersTeam(@PathVariable Long idPerson, @PathVariable Long idTeam) {
+    public Team addMembersTeam(@PathVariable Long idPerson, @PathVariable Long idTeam) throws TeamNotFoundException{
         Optional<Team> team = teamRepository.findById(idTeam);
         Optional<Person> person = customerRepository.findById(idPerson);
         if (team.isPresent() && person.isPresent()) {
@@ -118,12 +137,17 @@ public class TeamAPIController {
             }
             return teamRepository.save(team.get());
         }
-        return null;
+        throw new TeamNotFoundException(idTeam);
     }
     
+    /**
+     * Route PUT permettant de faire la suppression d'une personne à une équipe
+     * @param idPerson Identifiant de la personne à retitrer de l'équipe
+     * @param idTeam Identifiant de la personne à retirer
+     * @return L'équipe avant modification
+     */
     @PutMapping("/team/{idTeam}/delete/person/{idPerson}")
-    
-    public Team deleteMembersTeam(@PathVariable Long idPerson, @PathVariable Long idTeam) {
+    public Team deleteMembersTeam(@PathVariable Long idPerson, @PathVariable Long idTeam) throws TeamNotFoundException{
         Optional<Team> team = teamRepository.findById(idTeam);
         Optional<Person> person = customerRepository.findById(idPerson);
         if (team.isPresent() && person.isPresent()) {
@@ -132,6 +156,6 @@ public class TeamAPIController {
             teamRepository.save(team.get());
             return team.get();
         }
-        return null;
+        throw new TeamNotFoundException(idTeam);
     }
 }

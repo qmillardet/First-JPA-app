@@ -29,6 +29,12 @@ Il est possible de compiler l'application indépendamment via la commande :
 
     ./gradlew build
 
+## Test
+
+Des tests fonctionnels sont présents au sein de l'application. Ils sont dans le dossier [src/test/java/eu/telecomnancy/projetsdis/server/](src/test/java/eu/telecomnancy/projetsdis/server/).
+Pour les lancer, il faut lancer la commande :
+
+    ./gradlew check
 
 ## Liste des routes disponibles
 
