@@ -33,6 +33,8 @@ Pour utiliser l'interface de test, la lecture des éléments en JSON passe par l
 
 ## Utilisation
 
+### Script Bash
+
 Un script bash permet d'automatiser le lancement. Il est disponible avec de nombreuses options : 
 - ```--server```     pour compiler et lancer le server automatiquement
 - ```--log```        pour compiler et lancer le client de log
@@ -54,3 +56,10 @@ Les absences :
 - Ne permets pas de visualiser les équipes vides
 - Ne permets pas de trouver une personne par son nom
 - Ne permets pas de trouver les membres d'une équipe
+
+
+### Lancement pour le développement
+
+Il suffit d'aller consulter le README de chaque partie :
+* [Serveur](Server/README.md)
+* [Client](Client/README.md)
