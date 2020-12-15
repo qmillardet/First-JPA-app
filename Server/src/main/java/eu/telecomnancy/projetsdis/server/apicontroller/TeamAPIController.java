@@ -107,7 +107,7 @@ public class TeamAPIController {
     
     @PutMapping("/team/{idTeam}/add/person/{idPerson}")
 
-    public Team getMembersTeam(@PathVariable Long idPerson, @PathVariable Long idTeam) {
+    public Team addMembersTeam(@PathVariable Long idPerson, @PathVariable Long idTeam) {
         Optional<Team> team = teamRepository.findById(idTeam);
         Optional<Person> person = customerRepository.findById(idPerson);
         if (team.isPresent() && person.isPresent()) {
@@ -117,6 +117,20 @@ public class TeamAPIController {
                 customerRepository.save(person.get());
             }
             return teamRepository.save(team.get());
+        }
+        return null;
+    }
+    
+    @PutMapping("/team/{idTeam}/delete/person/{idPerson}")
+    
+    public Team deleteMembersTeam(@PathVariable Long idPerson, @PathVariable Long idTeam) {
+        Optional<Team> team = teamRepository.findById(idTeam);
+        Optional<Person> person = customerRepository.findById(idPerson);
+        if (team.isPresent() && person.isPresent()) {
+            team.get().removeMembers(person.get());
+            customerRepository.save(person.get());
+            teamRepository.save(team.get());
+            return team.get();
         }
         return null;
     }
