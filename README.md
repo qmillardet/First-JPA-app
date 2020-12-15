@@ -63,3 +63,11 @@ Les absences :
 Il suffit d'aller consulter le README de chaque partie :
 * [Serveur](Server/README.md)
 * [Client](Client/README.md)
+
+## Tests automatisés
+
+Une partie de l'application est testée de manière automatique sur Gitlab par des tests fonctionnesl.
+La partie de l'application testée est le Serveur où des requêtes sont envoyées automatiquement pour vérifier le fonctionnement de celui-ci.
+
+Ces tests sont déclenchés par le CI de gitlab : [.gitlab-ci.yml](.gitlab-ci.yml)
+Les tests sont basé sur l'image Docker de Gradle : [gradle:5.6.4-jdk11](https://hub.docker.com/_/gradle)
