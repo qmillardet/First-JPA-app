@@ -30,6 +30,7 @@ affichageAideTest () {
   echo -e "    ap \t\t: permet d'afficher l'intégralité des personnes présentes dans l'application dans le format JSON"
   echo -e "    apbyid \t: permet d'afficher une personne à partir de son id"
   echo -e "    addp \t: permet d'ajouter une personne en saisissant ses informations"
+  echo -e "    addpb \t: permet d'ajouter une personne en boucle"
   echo -e "    editp \t: permet d'éditer une personne en saisissant ses informations"
   echo -e "    delp \t: permet de supprimer une personne via son identifiant"
   echo -e ""
@@ -40,7 +41,6 @@ affichageAideTest () {
   echo -e "    addt \t: permet d'ajouter une équipe en saisissant ses informations"
   echo -e "    editt \t: permet d'éditer une équipe en saisissant ses informations"
   echo -e "    delt \t: permet de supprimer une équipe via son identifiant"
-
 }
 
                               ############
