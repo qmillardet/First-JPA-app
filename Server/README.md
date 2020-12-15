@@ -32,3 +32,8 @@ Il est possible de compiler l'application indépendamment via la commande :
 
 ## Liste des routes disponibles
 
+Elles sont présentes dans les fichiers 
+
+- [doc/listeRoute/Personne.md](doc/listeRoute/Personne.md) 
+- [doc/listeRoute/Equipe.md](doc/listeRoute/Equipe.md) 
+- [doc/listeRoute/Lien.md](doc/listeRoute/Lien.md) 
