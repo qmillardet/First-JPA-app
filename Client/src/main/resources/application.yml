@@ -1,6 +1,6 @@
 spring:
   rabbitmq:
-    host: swan.rmq.cloudamqp.com
-    password: ImStIfzlSEiGk72iJIg1sRphhg6IoMrZ
-    username: rbrilnwu
-    virtual-host: rbrilnwu
+    host: chinook.rmq.cloudamqp.com
+    password: m8Jhgbs3CuyjaA6nFe8YlWwTwQ8lv6tf
+    username: nbecflse
+    virtual-host: nbecflse
