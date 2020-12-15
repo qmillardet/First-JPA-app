@@ -41,6 +41,10 @@ Un script bash permet d'automatiser le lancement. Il est disponible avec de nomb
 - ```--bulk```       pour lancer le mode Bulk. Il lance automatiquement l'envoie de requêtes (creation de 8 personnes puis ajout d'une équipe et ajout de ces personnes dans l'équipe)
 - ```--bulk --launchServer```Il lance automatiquement le serveur, le client de log, le client de monitoring, et l'envoie de requêtes (creation de 8 personnes puis ajout d'une équipe et ajout de ces personnes dans l'équipe). Les fichiers d'affichage des informations sont dans le dossier /tmp/
 
+Exemple de lancement du script : 
+
+    bash launch.sh --bulk --launchServer
+
 Le mode de test est un peu particulier et dispose de son propre interface. La description des fonctions est disponible en tapant la commande "help" dans le prompt. 
 
 L'interface de test permet d'envoyer quelques requêtes simple et n'implémente pas toute l'API.
