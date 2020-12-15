@@ -9,7 +9,7 @@ Ce projet est à réaliser dans le cadre du cours SDIS de 3ème année à Teleco
 
 ## Description du projet
 
-Le sujet est disponible dans le fichier [sujet.md](sujet.md).
+Le sujet est disponible dans le fichier [SUJET.md](SUJET.md).
 
 Ce projet est séparé en deux applications Spring boot : 
 - La première (Server) correspond au serveur Web contenant l'API web ainsi que la base de données Derby.
