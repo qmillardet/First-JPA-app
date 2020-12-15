@@ -1,10 +1,10 @@
 # Projet SDIS
 
-Ce projet est à réaliser dans le cadre du cours SDIS de 3ème année à Telecom Nancy
+Ce projet est à réaliser dans le cadre du cours SDIS de 3ᵉ année à Telecom Nancy
 
 ## Auteur
 
-- Quentin Millardet : Élève en apprentissage en 3ème année à Télécom
+- Quentin Millardet : Élève en apprentissage en 3ᵉ année à Télécom
 
 
 ## Description du projet
@@ -15,11 +15,11 @@ Ce projet est séparé en deux applications Spring boot :
 - La première (Server) correspond au serveur Web contenant l'API web ainsi que la base de données Derby.
 - La deuxième (Client) correspond aux clients de log et de monitoring.
 
-## Dependances
+## Dépendances
 
 ### Le code JAVA
 
-Le projet à été réalisé en Java 11 avec le gestionnaire de dépendance Gradle. La compilation de la partie server et de la partie Client sont totalement indépendantes. 
+Le projet a été réalisé en Java 11 avec le gestionnaire de dépendance Gradle. La compilation de la partie server et de la partie Client sont totalement indépendantes. 
 Pour compiler l'une ou l'autre des parties, il suffit de se rendre dans la partie correspondante et de taper la commande : 
 - Sous Linux/macOS : ./gradlew build 
 - Sous Windows : gradlew.bat build (pas testé au moment de l'écriture du README)
@@ -28,7 +28,7 @@ Une liste plus détaillée est disponible dans le README de chaque dossier [Serv
 
 ### Le script
 
-Le script automatique est basé sur Bash (ne fonctionne pas en zsh). Pour fonctionner, ik necessite que la version de JAVA soit la 11 au minimum. 
+Le script automatique est basé sur Bash (ne fonctionne pas en zsh). Pour fonctionner, il nécessite que la version de JAVA soit la 11 au minimum. 
 Pour utiliser l'interface de test ou le mode bulk, la lecture des éléments en JSON passe par le parser [jq](https://stedolan.github.io/jq/), il est disponible au téléchargement sur de multiples plateformes : [Télécharger JQ](https://stedolan.github.io/jq/download/)
 
 ## Utilisation
@@ -66,7 +66,7 @@ Il suffit d'aller consulter le README de chaque partie :
 
 ## Tests automatisés
 
-Une partie de l'application est testée de manière automatique sur Gitlab par des tests fonctionnesl.
+Une partie de l'application est testée de manière automatique sur Gitlab par des tests fonctionnels.
 La partie de l'application testée est le Serveur où des requêtes sont envoyées automatiquement pour vérifier le fonctionnement de celui-ci.
 
 Ces tests sont déclenchés par le CI de gitlab : [.gitlab-ci.yml](.gitlab-ci.yml)
