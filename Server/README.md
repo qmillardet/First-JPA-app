@@ -5,6 +5,9 @@
 Le client nécessite la version 11 de Java ou supérieur.
 La gestion des dépendances passe par Gradle. Le script de lancement de ce dernier est dans le dépôt.
 
+Les données sont stockées dans un SGBD relationnel : Apache Derby. 
+Celui-ci est inclus dans le projet et ne nécessite pas de configuration pour pouvoir se lancer.
+
 Il est nécessaire de posséder une file RabbitMQ pour lire les messages du serveurs.
 La communication se fait par ce moyen.
 
