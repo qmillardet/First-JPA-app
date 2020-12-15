@@ -58,7 +58,10 @@ public class TeamListner {
             return "{" +
                            "message : \"" + this.typeMessage + "\"," +
                            "class : \"Team\"," +
-                           "id : " + this.team.getId() +
+                           "id : " + this.team.getId() + ","+
+                           "name : \"" + this.team.getName() + "\","+
+                           "dateCreation : \"" + this.team.getCreation().toString() + "\","+
+                           "complete : " + this.team.isComplete() +
                            "}";
         }
     }

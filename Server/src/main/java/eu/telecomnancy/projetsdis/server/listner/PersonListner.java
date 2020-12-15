@@ -58,7 +58,10 @@ public class PersonListner {
             return "{" +
                            "message : \"" + typeMessage + "\"," +
                            "class : \"Person\"," +
-                           "id : " + person.getId() +
+                           "id : " + person.getId() + "," +
+                           "firstname : \"" + person.getFirstName() + "\"," +
+                           "lastname : \"" + person.getLastName() + "\"," +
+                           "age : \"" + person.getAge() + "\"" +
                            "}";
         }
     }
