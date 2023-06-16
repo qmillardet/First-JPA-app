@@ -15,6 +15,7 @@ Les données seront stockées dans un SGDB embarqué Apache Derby (https://db.ap
 Les membres d'une équipe
 Les équipe complètes
 Les participants sans équipe
+
 3 - L'application doit générer un message dans une queue pub/sub RabbitMQ pour chaque opération de modification (not safe). Vous devrez écrire deux clients qui pourront s'abonner à ces messages
 
 a] un client de log qui enregistre dans un fichier toutes les opérations.
